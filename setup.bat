@@ -1,4 +1,4 @@
-npm install
+call npm install
 (
 echo EMAIL=
 echo PASSWORD=
@@ -7,4 +7,3 @@ echo UUID=
 )>".env"
 start notepad ".env"
 DEL "%~f0"
-pause
