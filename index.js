@@ -12,7 +12,7 @@ const bot = mineflayer.createBot({
 console.log("Connected!");
 
 setTimeout(() => {
-    getJSON(`https://api.hypixel.net/status?key=${process.env.APIKEY}&uuid=a0db5658-c120-43ed-a7f6-3487b9b82b21`, (error, response) => {
+    getJSON(`https://api.hypixel.net/status?key=${process.env.APIKEY}&uuid=${process.env.UUID}`, (error, response) => {
         if(error) console.log(error);
         else {
             if(response.session == undefined || response.session == null) return console.log("There was a problem fetching your current game");
@@ -27,7 +27,7 @@ setTimeout(() => {
 }, 3000);
 
 setInterval(() => {
-    getJSON(`https://api.hypixel.net/status?key=${process.env.APIKEY}&uuid=a0db5658-c120-43ed-a7f6-3487b9b82b21`, (error, response) => {
+    getJSON(`https://api.hypixel.net/status?key=${process.env.APIKEY}&uuid=${process.env.UUID}`, (error, response) => {
         if(error) console.log(error);
         else {
             if(response.session == undefined || response.session == null) return console.log("There was a problem fetching your current game");
