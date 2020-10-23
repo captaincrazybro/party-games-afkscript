@@ -2,6 +2,8 @@ const mineflayer = require('mineflayer');
 const getJSON = require('get-json');
 require('dotenv').config();
 
+var checking = false;
+
 const bot = mineflayer.createBot({
     host: "mc.hypixel.net",
     port: 25565,
@@ -11,32 +13,35 @@ const bot = mineflayer.createBot({
 
 console.log("Connected!");
 
-setTimeout(() => {
-    getJSON(`https://api.hypixel.net/status?key=${process.env.APIKEY}&uuid=${process.env.UUID}`, (error, response) => {
-        if(error) console.log(error);
-        else {
-            if(response.session == undefined || response.session == null) return console.log("There was a problem fetching your current game");
-            if(response.session.gameType != "ARCADE" || response.session.mode != "PARTY"){
+bot.on("message", (messageJson) => {
+    let message;
+    if(messageJson.json.text) message = messageJson.json.text;
+    else message = "";
+    if(messageJson.json.extra != undefined){
+      messageJson.json.extra.forEach(val => {
+        message += val.text;
+      })
+    }
+    if(checking){
+        if(message != "You are currently playing on Party Games"){
+            setTimeout(() => {
                 bot._client.write("chat", {message:"/play arcade_party_games_1"})
-                console.log("Subject was not in the correct game! They were sent back to it.")
-            } else {
-                console.log("Subject is in correct game");
-            }
+            }, 1000);
+            console.log("Subject was not in the correct game! They were sent back to it.")
+        } else {
+            console.log("Subject is in correct game");
         }
-    })
-}, 3000);
+        checking = false;
+    }
+    console.log(message);
+})
+
+setTimeout(() => {
+    bot._client.write("chat", {message:"/wtfmap"});
+    checking = true;
+}, 3000)
 
 setInterval(() => {
-    getJSON(`https://api.hypixel.net/status?key=${process.env.APIKEY}&uuid=${process.env.UUID}`, (error, response) => {
-        if(error) console.log(error);
-        else {
-            if(response.session == undefined || response.session == null) return console.log("There was a problem fetching your current game");
-            if(response.session.gameType != "ARCADE" || response.session.mode != "PARTY"){
-                bot._client.write("chat", {message:"/play arcade_party_games_1"})
-                console.log("Subject was not in the correct game! They were sent back to it.")
-            } else {
-                console.log("Subject is in correct game");
-            }
-        }
-    })
-}, 300000)
+    bot._client.write("chat", {message:"/wtfmap"});
+    checking = true;
+}, 300000);
