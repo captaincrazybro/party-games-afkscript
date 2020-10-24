@@ -1,5 +1,5 @@
 const mineflayer = require('mineflayer');
-const getJSON = require('get-json');
+const fs = require('fs');
 require('dotenv').config();
 
 var checking = false;
@@ -45,3 +45,7 @@ setInterval(() => {
     bot._client.write("chat", {message:"/wtfmap"});
     checking = true;
 }, 300000);
+
+function getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
+  }
