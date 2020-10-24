@@ -6,4 +6,3 @@ echo APIKEY=
 echo UUID=
 )>".env"
 start notepad ".env"
-DEL "%~f0"
