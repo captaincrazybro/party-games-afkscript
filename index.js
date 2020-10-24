@@ -23,17 +23,26 @@ bot.on("message", (messageJson) => {
       })
     }
     if(checking){
-        if(message != "You are currently playing on Party Games"){
+        if(message == "This command is not available on this server!"){
             setTimeout(() => {
                 bot._client.write("chat", {message:"/play arcade_party_games_1"})
             }, 1000);
             console.log("Subject was not in the correct game! They were sent back to it.")
-        } else {
-            console.log("Subject is in correct game");
+            checking = false;
+        } else if(message.startsWith("You are currently playing")) {
+            if(message == "You are currently playing on Party Games"){
+                console.log("Subject is in correct game");
+                checking = false;
+            } else {
+                setTimeout(() => {
+                    bot._client.write("chat", {message:"/play arcade_party_games_1"})
+                }, 1000);
+                console.log("Subject was not in the correct game! They were sent back to it.")
+                checking = false;
+            }
         }
-        checking = false;
     }
-    console.log(message);
+    //console.log(message);
 })
 
 setTimeout(() => {
