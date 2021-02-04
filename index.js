@@ -54,7 +54,7 @@ function run() {
                 }
             }
         }
-        //console.log(message);
+        console.log(message);
     })
 
     setTimeout(() => {
@@ -65,7 +65,7 @@ function run() {
     setInterval(() => {
         bot._client.write("chat", {message:"/wtfmap"});
         checking = true;
-    }, 300000);
+    }, 150000);
 
     function getRandomArbitrary(min, max) {
         return Math.random() * (max - min) + min;
